@@ -8,22 +8,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Chip from "@mui/material/Chip";
-import { Collapse, Typography, withStyles } from "@mui/material";
+import { Collapse, Typography } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import IconButton from "@mui/material/IconButton";
-
-const styles = (theme) => ({
-    root: {
-        justifyContent: "space-between",
-    },
-    name: {
-        textDecoration: "none",
-    },
-    items: {
-        margin: 10,
-    },
-});
+import Summary from "./summary";
 
 function Info({ title, description }) {
     return (
@@ -145,22 +134,24 @@ function StatusRow({ status }) {
 
 export default function StatusTable({ statuses }) {
     return (
-        <TableContainer component={Paper}>
-            <Table aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell />
-                        <TableCell>Status </TableCell>
-                        <TableCell align="right">Title</TableCell>
-                        <TableCell align="right">Time</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {statuses.map((row) => {
-                        return <StatusRow status={row} />;
-                    })}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <Summary title="Execution History">
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell />
+                            <TableCell>Status </TableCell>
+                            <TableCell align="right">Title</TableCell>
+                            <TableCell align="right">Time</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {statuses.map((row) => {
+                            return <StatusRow status={row} />;
+                        })}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </Summary>
     );
 }
