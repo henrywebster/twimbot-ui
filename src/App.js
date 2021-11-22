@@ -1,9 +1,10 @@
 import "./App.css";
-import { Typography, Grid, Container, Box, Paper } from "@mui/material";
+import { Typography, Grid, Container, Box, Paper, ThemeProvider } from "@mui/material";
 import StatusTable from "./components/status-table";
 import Layout from "./components/layout";
 import React, { useState } from "react";
 import Summary from "./components/summary";
+import theme from "./components/theme";
 
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
@@ -98,6 +99,7 @@ function App() {
     });
 
     return (
+        <ThemeProvider theme={theme}>
         <Box sx={{ paddingTop: "80px" }}>
             <Container maxWidth="md">
                 <Layout title="2x2 Bot Status">
@@ -106,6 +108,7 @@ function App() {
                 </Layout>
             </Container>
         </Box>
+        </ThemeProvider>
     );
 }
 
