@@ -1,17 +1,22 @@
 import React from "react";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Chip from "@mui/material/Chip";
-import Link from "@mui/material/Link";
-import { Collapse, Typography } from "@mui/material";
+import {
+  Box,
+  Chip,
+  Collapse,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  Typography,
+  TableHead,
+  TableRow,
+  Paper,
+  Link,
+} from "@mui/material/";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import IconButton from "@mui/material/IconButton";
 import Summary from "./summary";
 
@@ -101,6 +106,13 @@ function StatusRow({ status }) {
           <Chip
             label={status.status}
             color={status.status === "SUCCESS" ? "success" : "error"}
+            icon={
+              status.status === "SUCCESS" ? (
+                <SentimentVerySatisfiedIcon />
+              ) : (
+                <SentimentVeryDissatisfiedIcon />
+              )
+            }
           />
         </TableCell>
         <TableCell align="right">{status.title}</TableCell>
