@@ -3,19 +3,23 @@ import logo from "../logo.webp";
 
 const Nav = () => (
   <Grid container spacing={2}>
-    <Grid item>
-      <Link variant="subtitle2" href="https://hwebs.info" target="_blank">
-        ⌨️ By Henry
-      </Link>
+    <Grid
+      item
+      component={Link}
+      variant="subtitle2"
+      href="https://hwebs.info"
+      target="_blank"
+    >
+      ⌨️ By Henry
     </Grid>
-    <Grid item>
-      <Link
-        variant="subtitle2"
-        href="https://twitter.com/2x2Bot"
-        target="_blank"
-      >
-        🐦 @2x2Bot
-      </Link>
+    <Grid
+      item
+      component={Link}
+      variant="subtitle2"
+      href="https://twitter.com/2x2Bot"
+      target="_blank"
+    >
+      🐦 @2x2Bot
     </Grid>
   </Grid>
 );
@@ -32,9 +36,7 @@ const LayoutHeading = ({ title }) => (
         </Typography>
       </Grid>
     </Grid>
-    <Grid item>
-      <Nav />
-    </Grid>
+    <Grid item component={Nav} />
   </>
 );
 
@@ -58,27 +60,23 @@ function LayoutFooter({ version, copyright }) {
           {`v${version}`}
         </Typography>
       </Grid>
-      <Grid item>
-        <Typography
-          component="a"
-          variant="subtitle2"
-          href="https://github.com/henrywebster/hwebs-info"
-          target="_blank"
-        >
-          🖥️ Source on GitHub
-          {/* <Emoji emoji="🖥" /> Source on GitHub */}
-        </Typography>
+      <Grid
+        item
+        component={Link}
+        variant="subtitle2"
+        href="https://github.com/henrywebster/twimbot-ui"
+        target="_blank"
+      >
+        🖥️ Source on GitHub
       </Grid>
-      <Grid item>
-        <Typography
-          component="a"
-          variant="subtitle2"
-          href="https://github.com/henrywebster/hwebs-info/issues"
-          target="_blank"
-        >
-          ⚠️ Report an Issue
-          {/* <Emoji emoji="⚠️" /> Report an Issue */}
-        </Typography>
+      <Grid
+        item
+        component={Link}
+        variant="subtitle2"
+        href="https://github.com/henrywebster/twimbot-ui/issues"
+        target="_blank"
+      >
+        ⚠️ Report an Issue
       </Grid>
     </Grid>
   );
