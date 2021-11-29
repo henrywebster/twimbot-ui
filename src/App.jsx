@@ -23,12 +23,12 @@ function createData(status, endTime, executionTime) {
 }
 
 const rows = [
-    createData("SUCCESS", 1636825419, 25),
-    createData("SUCCESS", 1634389872, 30),
-    createData("FAILURE", 1636828420, 24),
-    createData("SUCCESS", 1636828429, 10),
-    createData("SUCCESS", 1636828429, 123),
-    createData("SUCCESS", 1636828429, 100),
+    createData("SUCCEEDED", 1636825419, 25),
+    createData("SUCCEEDED", 1634389872, 30),
+    createData("FAILED", 1636828420, 24),
+    createData("SUCCEEDED", 1636828429, 10),
+    createData("SUCCEEDED", 1636828429, 123),
+    createData("SUCCEEDED", 1636828429, 100),
 ];
 
 function CronDetail({ cron }) {
@@ -53,15 +53,24 @@ function CronDetail({ cron }) {
 function App() {
     const [cron, setCron] = useState({
         description: "Loading...",
-        next: "Loading...",
+        next: "0",
     });
 
-    const [executions, setExections] = useState(rows);
+    const [executions, setExecutions] = useState([]);
 
+    // TODO: get from enviornment variables
     useEffect(() => {
         fetch("https://gw7g3q8a7e.execute-api.us-east-2.amazonaws.com/dev/cron")
             .then((response) => response.json())
             .then((data) => setCron(data));
+    }, []);
+
+    useEffect(() => {
+        fetch(
+            "https://gw7g3q8a7e.execute-api.us-east-2.amazonaws.com/dev/execution"
+        )
+            .then((response) => response.json())
+            .then((data) => setExecutions(data));
     }, []);
 
     return (

@@ -1,12 +1,10 @@
 import React from "react";
 import {
-    Box,
     Chip,
     Table,
     TableBody,
     TableCell,
     TableContainer,
-    Typography,
     TableHead,
     TableRow,
     Paper,
@@ -30,10 +28,12 @@ function StatusRow({ execution }) {
                     <Chip
                         label={execution.status}
                         color={
-                            execution.status === "SUCCESS" ? "success" : "error"
+                            execution.status === "SUCCEEDED"
+                                ? "success"
+                                : "error"
                         }
                         icon={
-                            execution.status === "SUCCESS" ? (
+                            execution.status === "SUCCEEDED" ? (
                                 <SentimentVerySatisfiedIcon />
                             ) : (
                                 <SentimentVeryDissatisfiedIcon />
@@ -42,9 +42,11 @@ function StatusRow({ execution }) {
                     />
                 </TableCell>
                 <TableCell align="right">
-                    {new Date(execution.endTime * 1000).toUTCString()}
+                    {new Date(execution.endTime).toUTCString()}
                 </TableCell>
-                <TableCell align="right">{execution.executionTime}</TableCell>
+                <TableCell align="right">
+                    {execution.executionTime / 1000}
+                </TableCell>
             </TableRow>
         </>
     );
@@ -60,7 +62,7 @@ export default function StatusTable({ executions }) {
                             <TableCell>Status </TableCell>
                             <TableCell align="right">Time Complete</TableCell>
                             <TableCell align="right">
-                                Execution Length
+                                Execution Length (s)
                             </TableCell>
                         </TableRow>
                     </TableHead>
