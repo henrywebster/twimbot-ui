@@ -1,15 +1,15 @@
 import "./App.css";
 import {
-  Typography,
-  Grid,
-  Container,
-  Box,
-  Paper,
-  ThemeProvider,
+    Typography,
+    Grid,
+    Container,
+    Box,
+    Paper,
+    ThemeProvider,
 } from "@mui/material";
 import StatusTable from "./components/status-table";
 import Layout from "./components/layout";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Summary from "./components/summary";
 import theme from "./components/theme";
 
@@ -18,101 +18,73 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
-function createData(status, title, end_time, message, link, executionTime) {
-  return { status, title, end_time, message, link, executionTime };
+function createData(status, endTime, executionTime) {
+    return { status, endTime, executionTime };
 }
 
 const rows = [
-  createData(
-    "SUCCESS",
-    "Ooze",
-    1636825419,
-    null,
-    "https://twitter.com/2x2Bot/status/1459566918852087809",
-    0.123
-  ),
-  createData(
-    "SUCCESS",
-    "Peeking",
-    1634389872,
-    null,
-    "https://twitter.com/2x2Bot/status/1457030202765291523",
-    0.456
-  ),
-  createData(
-    "FAILURE",
-    "Sign",
-    1636828420,
-    "No paintings in the database",
-    null,
-    1.04
-  ),
-  createData(
-    "SUCCESS",
-    "Cool Guy",
-    1636828429,
-    null,
-    "https://twitter.com/2x2Bot/status/1454493488259682308",
-    0.567
-  ),
-  createData(
-    "SUCCESS",
-    "Cool Guy",
-    1636828429,
-    null,
-    "https://twitter.com/2x2Bot/status/1454493488259682308",
-    0.567
-  ),
-  createData(
-    "SUCCESS",
-    "Cool Guy",
-    1636828429,
-    null,
-    "https://twitter.com/2x2Bot/status/1454493488259682308",
-    0.567
-  ),
+    createData("SUCCEEDED", 1636825419, 25),
+    createData("SUCCEEDED", 1634389872, 30),
+    createData("FAILED", 1636828420, 24),
+    createData("SUCCEEDED", 1636828429, 10),
+    createData("SUCCEEDED", 1636828429, 123),
+    createData("SUCCEEDED", 1636828429, 100),
 ];
 
-function CronDetail({ status }) {
-  return (
-    <Summary title="Cron Details">
-      <Paper elevation={3}>
-        <Grid container columnSpacing={4} padding={2}>
-          <Grid item component={Typography}>
-            <Box fontWeight={600}>Current Schedule</Box>
-            {status.cron.description}
-          </Grid>
-          <Grid item component={Typography}>
-            <Box fontWeight={600}>Next Run</Box>
-            {status.cron.next}
-          </Grid>
-        </Grid>
-      </Paper>
-    </Summary>
-  );
+function CronDetail({ cron }) {
+    return (
+        <Summary title="Cron Details">
+            <Paper elevation={3}>
+                <Grid container columnSpacing={4} padding={2}>
+                    <Grid item component={Typography}>
+                        <Box fontWeight={600}>Current Schedule</Box>
+                        {cron.description}
+                    </Grid>
+                    <Grid item component={Typography}>
+                        <Box fontWeight={600}>Next Run</Box>
+                        {new Date(cron.next * 1000).toUTCString()}
+                    </Grid>
+                </Grid>
+            </Paper>
+        </Summary>
+    );
 }
 
 function App() {
-  const [status, setStatus] = useState({
-    cron: {
-      description: "Every Saturday at 17:00 UTC",
-      next: "Saturday Nov 20 17:00 UTC",
-    },
-    executions: rows,
-  });
+    const [cron, setCron] = useState({
+        description: "Loading...",
+        next: "0",
+    });
 
-  return (
-    <ThemeProvider theme={theme}>
-      <Box sx={{ paddingTop: "40px" }}>
-        <Container maxWidth="md">
-          <Layout title="2x2 Bot Status">
-            <CronDetail status={status} />
-            <StatusTable statuses={status.executions} />
-          </Layout>
-        </Container>
-      </Box>
-    </ThemeProvider>
-  );
+    const [executions, setExecutions] = useState([]);
+
+    // TODO: get from enviornment variables
+    useEffect(() => {
+        fetch("https://gw7g3q8a7e.execute-api.us-east-2.amazonaws.com/dev/cron")
+            .then((response) => response.json())
+            .then((data) => setCron(data));
+    }, []);
+
+    useEffect(() => {
+        fetch(
+            "https://gw7g3q8a7e.execute-api.us-east-2.amazonaws.com/dev/execution"
+        )
+            .then((response) => response.json())
+            .then((data) => setExecutions(data));
+    }, []);
+
+    return (
+        <ThemeProvider theme={theme}>
+            <Box sx={{ paddingTop: "40px" }}>
+                <Container maxWidth="md">
+                    <Layout title="2x2 Bot Status">
+                        <CronDetail cron={cron} />
+                        <StatusTable executions={executions} />
+                    </Layout>
+                </Container>
+            </Box>
+        </ThemeProvider>
+    );
 }
 
 export default App;
