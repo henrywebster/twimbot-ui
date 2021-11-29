@@ -1,4 +1,4 @@
-import { Grid, Typography, Button } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 
 const SummaryHeading = ({ id, children, ...props }) => (
     <Grid container spacing={2} paddingY={2} justifyContent="space-between">
@@ -6,9 +6,6 @@ const SummaryHeading = ({ id, children, ...props }) => (
             <Typography component="h2" variant="h5">
                 {props.title}
             </Typography>
-        </Grid>
-        <Grid item>
-            <Button variant="contained">Refresh</Button>
         </Grid>
     </Grid>
 );
